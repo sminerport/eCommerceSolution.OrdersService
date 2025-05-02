@@ -1,0 +1,169 @@
+﻿########################
+#   SERVICE DEFINITIONS
+########################
+services:
+  # ──────────────────────────  API LAYER  ──────────────────────────
+  orders-microservice:
+    image: orders-microservice:latest
+    build:
+      context: .
+      dockerfile: OrdersMicroservice.API/Dockerfile
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+      - MONGODB_HOST=mongodb-container
+      - MONGODB_PORT=27017
+      - MONGODB_DATABASE=OrdersDatabase
+
+      - UsersMicroserviceName=apigateway
+      - UsersMicroservicePort=8080
+      - ProductsMicroserviceName=apigateway
+      - ProductsMicroservicePort=8080
+
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_PRODUCTS_EXCHANGE=products.exchange
+
+    ports:
+      - "7000:8080"
+    networks:
+      - orders-mongodb-network
+      - ecommerce-network
+    depends_on:
+       rabbitmq:
+         condition: service_healthy   # wait for broker health-check
+       mongodb-container:
+         condition: service_started   # start after MySQL container
+
+  mongodb-container:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb-init:/docker-entrypoint-initdb.d
+    networks:
+      - orders-mongodb-network
+
+  products-microservice:
+    image: products-microservice:latest
+    environment:
+      - ASPNETCORE_HTTP_PORTS=7070
+      - ASPNETCORE_ENVIRONMENT=Development
+
+      - MYSQL_HOST=mysql-container
+      - MYSQL_PORT=3306
+      - MYSQL_DB=ecommerceproductsdatabase
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=admin
+
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=admin
+      - RABBITMQ_PASSWORD=admin
+      - RABBITMQ_PRODUCTS_EXCHANGE=products.exchange
+
+    ports:
+      - "6001:7070"
+    networks:
+      - products-mysql-network
+      - ecommerce-network
+
+    depends_on:
+       rabbitmq:
+         condition: service_healthy   # wait for broker health-check
+       mysql-container:
+         condition: service_started   # start after MySQL container
+
+  mysql-container:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    networks:
+      - products-mysql-network
+
+  users-microservice:
+    image: users-microservice:latest
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      - POSTGRES_HOST=postgres-container
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=eCommerceUsers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5001:9090"
+    networks:
+      - users-postgres-network
+      - ecommerce-network
+    depends_on:
+      - postgres-container
+
+  postgres-container:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=eCommerceUsers
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - users-postgres-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - C:/WindowsCode/eCommerceSolution.OrdersService/redis-cache:/data
+    networks:
+      - ecommerce-network
+
+  apigateway:
+    image: apigateway
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+    ports:
+      - "4000:8080"
+      - "4001:8081"
+    networks:
+      - ecommerce-network
+
+  rabbitmq:
+    image: rabbitmq:4.1.0-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 20
+    networks:
+      - ecommerce-network
+
+networks:
+  orders-mongodb-network:
+    driver: bridge
+  products-mysql-network:
+    driver: bridge
+  users-postgres-network:
+    driver: bridge
+  ecommerce-network:
+    driver: bridge
