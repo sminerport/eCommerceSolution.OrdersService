@@ -31,10 +31,10 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: rabbitmq-credentials
-                  key: RABBITMQ_USERNAME
+                  key: RabbitMqUsername
 
             - name: RABBITMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: rabbitmq-credentials
-                  key: RABBITMQ_PASSWORD
+                  key: RabbitMqPassword
