@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersMicroservice.API", "OrdersMicroservice.API\OrdersMicroservice.API.csproj", "{28FA1F52-2E43-8B6C-3616-C37293E696C6}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{A9FCCEB3-DD88-F8C0-89A3-FD31A7C54F23}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersUnitTests", "OrdersUnitTests\OrdersUnitTests.csproj", "{49B1FB5D-3963-44C6-8011-D5C14CFE4CBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B1FB5D-3963-44C6-8011-D5C14CFE4CBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B1FB5D-3963-44C6-8011-D5C14CFE4CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B1FB5D-3963-44C6-8011-D5C14CFE4CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B1FB5D-3963-44C6-8011-D5C14CFE4CBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
