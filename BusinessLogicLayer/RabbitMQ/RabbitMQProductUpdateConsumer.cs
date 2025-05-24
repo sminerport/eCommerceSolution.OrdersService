@@ -46,11 +46,6 @@ public class RabbitMQProductUpdateConsumer : IAsyncDisposable, IRabbitMQProductU
             Port = Convert.ToInt32(_configuration["RABBITMQ_PORT"]!)
         };
 
-        Console.WriteLine($"RABBITMQ_HOST: {_configuration["RABBITMQ_HOST"]}");
-        Console.WriteLine($"RABBITMQ_USERNAME: {_configuration["RABBITMQ_USERNAME"]}");
-        Console.WriteLine($"RABBITMQ_PASSWORD: {_configuration["RABBITMQ_PASSWORD"]}");
-        Console.WriteLine($"RABBITMQ_PORT: {_configuration["RABBITMQ_PORT"]}");
-
         _connection = await connectionFactory.CreateConnectionAsync();
         _channel = await _connection.CreateChannelAsync();
     }
