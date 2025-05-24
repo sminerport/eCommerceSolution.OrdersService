@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: orders-microservice
-          image: microecommerceregistry.azurecr.io/orders-microservice:latest
+          image: microecommerceregistry.azurecr.io/orders-microservice:__TAG__
           ports:
             - containerPort: 8080
           envFrom:
