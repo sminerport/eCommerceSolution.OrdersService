@@ -11,12 +11,12 @@ resources:
   - repo: self
 
 variables:
-  - name: dockerRegistryServiceConnection
-    value: "5aec3b45-85d9-420d-83b3-09b2c833e2dd"
+  - name: container-registry-service-connection
+    value: "f9c83263-6099-4ac9-9fc0-ee308ab90877"
   - name: imageRepository
     value: "orders-microservice"
   - name: containerRegistry
-    value: "microecommerceregistry.azurecr.io"
+    value: "scottazurecontainerregistry.azurecr.io"
   - name: dockerfilePath
     value: "$(Build.SourcesDirectory)/OrdersMicroservice.API/Dockerfile"
   - name: tag
@@ -28,16 +28,16 @@ variables:
   - name: aksClusterName
     value: "ecommerce-aks-cluster"
   - name: dev-aks-service-connection
-    value: "dev-ecommerce-aks-cluster-dev-1746262345787"
+    value: "dev-ecommerce-aks-cluster-dev-1748668317025"
   - name: qa-aks-service-connection
-    value: "qa-ecommerce-aks-cluster-qa-1746262481292"
+    value: "qa-ecommerce-aks-cluster-qa-1748668499000"
   - name: uat-aks-service-connection
-    value: "uat-ecommerce-aks-cluster-uat-1746262574281"
+    value: "uat-ecommerce-aks-cluster-uat-1748668574210"
   - name: staging-aks-service-connection
-    value: "staging-ecommerce-aks-cluster-staging-1746262651313"
+    value: "staging-ecommerce-aks-cluster-staging-1748668625960"
   - name: prod-aks-service-connection
-    value: "prod-ecommerce-aks-cluster-prod-1746262712232"
-  - name: azureRMServiceConnection
+    value: "prod-ecommerce-aks-cluster-prod-1748668705002"
+  - name: resource-group-service-connection
     value: "ecommerce-resource-group-connection"
 
 stages:
@@ -55,7 +55,7 @@ stages:
               command: buildAndPush
               repository: $(imageRepository)
               dockerfile: $(dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
+              containerRegistry: $(container-registry-service-connection)
               tags: |
                 $(tag)
               buildContext: $(Build.SourcesDirectory)
@@ -117,7 +117,7 @@ stages:
                 - task: AzureCLI@2
                   displayName: Create/update mysql & rabbitmq k8s Secrets
                   inputs:
-                    azureSubscription: $(azureRMServiceConnection) # must be an AzureRM SP connection
+                    azureSubscription: $(resource-group-service-connection) # must be an AzureRM SP connection
                     scriptType: bash
                     scriptLocation: inlineScript
                     inlineScript: |
@@ -171,7 +171,7 @@ stages:
                 - task: AzureCLI@2
                   displayName: Create/update mysql & rabbitmq k8s Secrets
                   inputs:
-                    azureSubscription: $(azureRMServiceConnection) # must be an AzureRM SP connection
+                    azureSubscription: $(resource-group-service-connection) # must be an AzureRM SP connection
                     scriptType: bash
                     scriptLocation: inlineScript
                     inlineScript: |
@@ -225,7 +225,7 @@ stages:
                 - task: AzureCLI@2
                   displayName: Create/update mysql & rabbitmq k8s Secrets
                   inputs:
-                    azureSubscription: $(azureRMServiceConnection) # must be an AzureRM SP connection
+                    azureSubscription: $(resource-group-service-connection) # must be an AzureRM SP connection
                     scriptType: bash
                     scriptLocation: inlineScript
                     inlineScript: |
@@ -279,7 +279,7 @@ stages:
                 - task: AzureCLI@2
                   displayName: Create/update mysql & rabbitmq k8s Secrets
                   inputs:
-                    azureSubscription: $(azureRMServiceConnection) # must be an AzureRM SP connection
+                    azureSubscription: $(resource-group-service-connection) # must be an AzureRM SP connection
                     scriptType: bash
                     scriptLocation: inlineScript
                     inlineScript: |
@@ -333,7 +333,7 @@ stages:
                 - task: AzureCLI@2
                   displayName: Create/update mysql & rabbitmq k8s Secrets
                   inputs:
-                    azureSubscription: $(azureRMServiceConnection) # must be an AzureRM SP connection
+                    azureSubscription: $(resource-group-service-connection) # must be an AzureRM SP connection
                     scriptType: bash
                     scriptLocation: inlineScript
                     inlineScript: |
