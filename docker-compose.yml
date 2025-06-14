@@ -14,7 +14,7 @@ services:
 
       - MONGODB_HOST=mongodb-container
       - MONGODB_PORT=27017
-      - MONGODB_DATABASE=OrdersDatabase
+      - MONGODB_DB=OrdersDatabase
 
       - UsersMicroserviceName=apigateway
       - UsersMicroservicePort=8080

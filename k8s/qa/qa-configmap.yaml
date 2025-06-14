@@ -7,7 +7,7 @@ data:
   # MongoDB host, port, and database name (non-sensitive)
   MONGODB_HOST: mongodb
   MONGODB_PORT: "27017"
-  MONGODB_DATABASE: OrdersDatabase
+  MONGODB_DB: OrdersDatabase
 
   # Template for your MongoDB connection
   ConnectionStrings__MongoDB: |

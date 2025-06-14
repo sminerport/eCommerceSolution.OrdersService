@@ -17,15 +17,15 @@ public static class DependencyInjection
         string template = configuration.GetConnectionString("MongoDB")!;
 
         string connectionString = template
-            .Replace("$MONGO_HOST", Environment.GetEnvironmentVariable("MONGODB_HOST")!)
-            .Replace("$MONGO_PORT", Environment.GetEnvironmentVariable("MONGODB_PORT")!);
+            .Replace("$MONGODB_HOST", Environment.GetEnvironmentVariable("MONGODB_HOST")!)
+            .Replace("$MONGODB_PORT", Environment.GetEnvironmentVariable("MONGODB_PORT")!);
 
         services.AddSingleton<IMongoClient>(new MongoClient(connectionString));
 
         services.AddScoped<IMongoDatabase>(provider =>
         {
             IMongoClient client = provider.GetRequiredService<IMongoClient>();
-            return client.GetDatabase(Environment.GetEnvironmentVariable("MONGODB_DATABASE"));
+            return client.GetDatabase(Environment.GetEnvironmentVariable("MONGODB_DB"));
         });
 
         services.AddScoped<IOrdersRepository, OrdersRepository>();
