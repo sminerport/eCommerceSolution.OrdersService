@@ -11,7 +11,7 @@ data:
 
   # Template for your MongoDB connection
   ConnectionStrings__MongoDB: |
-    mongodb://$MONGO_HOST:$MONGO_PORT
+    mongodb://$MONGODB_HOST:$MONGODB_PORT
 
   # Other service endpoints
   UsersMicroservicePort: "8080"
