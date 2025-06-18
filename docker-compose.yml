@@ -94,7 +94,7 @@ services:
   users-microservice:
     image: users-microservice:latest
     environment:
-      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTP_PORTS=9090
       - ASPNETCORE_ENVIRONMENT=Development
       - POSTGRES_HOST=postgres-container
       - POSTGRES_PORT=5432

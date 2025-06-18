@@ -62,7 +62,10 @@ builder.Services.AddHttpClient<ProductMicroserviceClient>(client =>
 
 var app = builder.Build();
 
-app.UseExceptionHandlingMiddleware();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandlingMiddleware();
+}
 
 app.UseRouting();
 
