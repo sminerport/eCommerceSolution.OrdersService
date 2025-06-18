@@ -99,7 +99,8 @@
         "EnableRateLimiting": true,
         "Period": "1m",
         "PeriodTimespan": 30,
-        "Limit": 3
+        "Limit": 300,
+        "HttpStatusCode": 429
       }
     },
     {
